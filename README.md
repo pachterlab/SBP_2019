@@ -1,7 +1,8 @@
 Code for producing the analysis in the "Quantifying the tradeoff between sequencing depth and cell number in single-cell RNA-seq" by Valentine Svensson, Eduardo Beltrame and Lior Pachter
 
 
-The workflow has 4 steps:
+
+The workflow has 4 steps. The output data after each step can be downloaded from CaltechDATA at https://data.caltech.edu/records/1276
 
 ### 1) FASTQ Subsampling and processing with kallisto bus 
 
@@ -27,6 +28,8 @@ cat pbmc_10k_v3_S1_L001_R1_001.fastq.gz pbmc_10k_v3_S1_L002_R1_001.fastq.gz > pb
 ```
 It is necessary to have a single file for each read so that seqtk can subsample from it.
 
+The output files produced for this step in the paper in CaltechDATA are in the tar file `snakemake_subsampling_output.tar.gz`
+
 #### Metadata parameters for the subsampling with `cell-depth-tradeoff-metadata.tsv`
 
 The path to each subsampled file should be provided in the `dataset_sample_path` column of the `cell-depth-tradeoff-metadata.tsv`. The name of the R1 file should be in the `concat_read1_file` column, and the same for R2 and the `concat_read2_file` column. 
@@ -40,6 +43,10 @@ Finally, the depths to be subsampled should be in the `subsampling_depths` colum
 ### 2) Create `.H5AD` files with subsampled count matrices
 
 For each dataset, we need to parse all gene count matrices produces (outputted by bustools in .mtx format) into an h5 file using anndata. The short notebook `2) create_H5AD.ipynb` does this and provides a quick check that it worked. Note that it was created using anndata version 0.6.18 and need to be run with that version, as anndata behavior changed in recent versions (see https://github.com/theislab/anndata/issues/206). 
+
+
+The output files produced for this step in the paper in CaltechDATA are `pbmc10k_subsamples.h5ad`, `heart10k_subsamples.h5ad` and `neurons10k_subsamples.h5ad`
+
 
 ### 3) Run scVI
 
@@ -71,6 +78,8 @@ The list `cells_sizes` stores the numbers of cells to sample. In our workflow we
 ```
 After scVI training, a t-SNE is computed in the embedding space and the coordinates are also saved. 
 The results of each trained point are saved in a csv file named `scvi_output_{ds}<dataset>_c<number of sampled cells>_d<subsampled depth>.csv`, for example `heart10k_c1409_d200000.csv`. This naming convention is used by the final analysis notebook to parse the csv files and perform plotting.
+
+The output files produced for this step in the paper in CaltechDATA are in the tar file `scvi_output_all_datasets.tar.gz`
 
 ### 4) Process scVI results and generate figure
 
