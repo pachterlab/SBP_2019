@@ -42,8 +42,7 @@ Finally, the depths to be subsampled should be in the `subsampling_depths` colum
 
 ### 2) Create `.H5AD` files with subsampled count matrices
 
-For each dataset, we need to parse all gene count matrices produces (outputted by bustools in .mtx format) into an h5 file using anndata. The short notebook `2) create_H5AD.ipynb` does this and provides a quick check that it worked. Note that it was created using anndata version 0.6.18 and need to be run with that version, as anndata behavior changed in recent versions (see https://github.com/theislab/anndata/issues/206). 
-
+For each dataset, we need to parse all gene count matrices produces (outputted by bustools in .mtx format) into an h5 file using anndata. The short notebook `2) create_H5AD.ipynb` does this and provides a quick check that it worked. 
 
 The output files produced for this step in the paper in CaltechDATA are `pbmc10k_subsamples.h5ad`, `heart10k_subsamples.h5ad` and `neurons10k_subsamples.h5ad`
 
